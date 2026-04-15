@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Class Performance Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; }
+        .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        
+        .student-row { border: 1px solid #eee; padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #fafafa; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; position: relative;}
+        label { font-size: 12px; font-weight: bold; color: #7f8c8d; }
+        select, input { width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ddd; }
+        
+        .btn-add { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-bottom: 20px; }
+        .btn-predict { background: #2c3e50; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-size: 18px; cursor: pointer; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: center; }
+        th { background: #f8f9fa; }
+        .pred-highlight { font-weight: bold; color: #e67e22; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Student Performance AI Predictor</h2>
+    
+    <form action="/predict" method="post">
+        <div id="student-list">
+            <div class="student-row">
+                <div style="grid-column: span 4;"><strong>Student #1</strong></div>
+                <div>
+                    <label>Gender</label>
+                    <select name="gender"><option>female</option><option>male</option></select>
+                </div>
+                <div>
+                    <label>Ethnicity</label>
+                    <select name="race/ethnicity">
+                        <option>group A</option><option>group B</option><option>group C</option><option>group D</option><option>group E</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Parental Edu</label>
+                    <select name="parental level of education">
+                        <option>some high school</option><option>high school</option><option>associate's degree</option><option>bachelor's degree</option><option>master's degree</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Lunch</label>
+                    <select name="lunch"><option>standard</option><option>free/reduced</option></select>
+                </div>
+                <div><label>Math</label><input type="number" name="math score" value="60" min="0" max="100"></div>
+                <div><label>Reading</label><input type="number" name="reading score" value="60" min="0" max="100"></div>
+                <div><label>Writing</label><input type="number" name="writing score" value="60" min="0" max="100"></div>
+                <div><label>Test Prep</label><select name="test preparation course"><option>none</option><option>completed</option></select></div>
+            </div>
+        </div>
+
+        <button type="button" class="btn-add" onclick="addStudent()">+ Add Another Student</button>
+        <button type="submit" class="btn-predict">Run Bulk AI Prediction</button>
+    </form>
+
+    <hr style="margin: 40px 0;">
+
+    {% if results %}
+    <div style="display: flex; gap: 20px; align-items: flex-start;">
+        <div style="flex: 1;">
+            <h3>Prediction Report</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Math</th><th>Reading</th><th>Writing</th><th>AI Prediction</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in results %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.math }}%</td>
+                        <td>{{ row.reading }}%</td>
+                        <td>{{ row.writing }}%</td>
+                        <td class="pred-highlight">{{ row.prediction }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div style="flex: 1; text-align: center;">
+            <h3>Class Trends</h3>
+            <img src="data:image/png;base64,{{ graph_url }}" style="max-width: 100%;">
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    let studentCount = 1;
+    function addStudent() {
+        studentCount++;
+        const container = document.getElementById('student-list');
+        const row = document.querySelector('.student-row').cloneNode(true);
+        row.querySelector('strong').innerText = "Student #" + studentCount;
+        container.appendChild(row);
+    }
+</script>
+
+</body>
+</html>
