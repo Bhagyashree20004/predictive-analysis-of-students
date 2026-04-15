@@ -28,16 +28,18 @@ The system is built using Python, Flask, and basic data analysis techniques.
 ---
 
 ## 📁 Project Structure
-internship/ 
-── app_flask.py
-── train_model.py
-── clean_data.py
-── eda_task.py
-── best_student_model.pkl
-── student_performance.csv 
-── student_performance_cleaned.csv 
-│── templates/ 
-── README.md
+internship/
+│── app_flask.py
+│── train_model.py
+│── clean_data.py
+│── eda_task.py
+│── best_student_model.pkl
+│── student_performance.csv
+│── student_performance_cleaned.csv
+│── templates/
+│── static/
+│── requirements.txt
+│── README.md
 
 ---
 
@@ -45,4 +47,28 @@ internship/
 
 1. Clone the repository:
 ```bash
-git clone 
+-git clone https://github.com/Bhagyashree20004/predictive-analysis-of-students
+
+-cd internship
+
+-pip install -r requirements.txt
+
+-python app_flask.py
+
+-http://127.0.0.1:5000/
+
+📊 Output
+-Displays average scores
+-Shows AI predicted performance
+-Bar chart visualization
+
+🧠 Machine Learning Model
+-Algorithm Used: (Add your model here, e.g., Linear Regression / Random Forest)
+-Trained on student dataset
+-Model saved as .pkl file
+
+📌 Future Improvements
+-Add login system
+-Improve UI design
+-Deploy the project online
+-Use advanced ML models
